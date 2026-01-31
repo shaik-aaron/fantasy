@@ -12,5 +12,6 @@ export type SignUpDetails = {
 
 export type userDetails = {
     userId: number,
-    firstName: string
+    firstName: string,
+    email: string
 }

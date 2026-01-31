@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Link } from "react-router"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router";
-import api from '../../api/posts'
+import api from '../../../api/posts'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import type { SignUpDetails } from "@/types/auth"
 import { AuthContext } from "@/context/AuthProvider"
@@ -26,7 +26,7 @@ function Signup() {
             const response = await api.post('/signup', data)
             console.log(response)
             if (response.status == 201) {
-                setAuth({ userId: response.data.userId, firstName: response.data.firstName });
+                setAuth({ userId: response.data.userId, firstName: response.data.firstName, email: response.data.email });
                 navigate("/home")
             }
         }

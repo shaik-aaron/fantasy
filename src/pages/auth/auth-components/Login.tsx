@@ -3,7 +3,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field
 import { Input } from "@/components/ui/input"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { Link, useNavigate } from "react-router"
-import api from '../../api/posts'
+import api from '../../../api/posts'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { AuthContext } from "@/context/AuthProvider"
 import { useContext } from "react"
@@ -25,7 +25,7 @@ function Login() {
             const response = await api.post('/login', data)
             console.log(response)
             if (response.status == 200) {
-                setAuth({ userId: response.data.userId, firstName: response.data.firstName });
+                setAuth({ userId: response.data.userId, firstName: response.data.firstName, email: response.data.email });
                 navigate('/home')
             }
         }
