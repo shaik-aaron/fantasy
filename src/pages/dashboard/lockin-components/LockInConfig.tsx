@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import type { FocusConfig, SessionStatus } from "@/types/focus"
+import type { FocusConfig } from "@/types/focus"
 
-export const LockInConfig = ({ focusConfig, setFocusConfig, setSessionStatus }: { focusConfig: FocusConfig, setFocusConfig: (config: FocusConfig) => void, setSessionStatus: (status: SessionStatus) => void }) => {
+export const LockInConfig = ({ focusConfig, setFocusConfig, onStartSession }: { focusConfig: FocusConfig, setFocusConfig: (config: FocusConfig) => void, onStartSession: () => void }) => {
 
     return (
         <div className="w-full h-full p-[14px] font-geist">
@@ -29,6 +29,7 @@ export const LockInConfig = ({ focusConfig, setFocusConfig, setSessionStatus }: 
                         <ToggleGroupItem value="45" className="cursor-pointer">45m</ToggleGroupItem>
                         <ToggleGroupItem value="60" className="cursor-pointer">1h</ToggleGroupItem>
                         <ToggleGroupItem value="120" className="cursor-pointer">2h</ToggleGroupItem>
+                        <ToggleGroupItem value="5" className="cursor-pointer">5m</ToggleGroupItem>
                     </ToggleGroup>
                     <hr className="my-6" />
                     <h2 className="font-geist-semibold text-md mb-4 mt-6">Custom Duration (optional)</h2>
@@ -55,7 +56,7 @@ export const LockInConfig = ({ focusConfig, setFocusConfig, setSessionStatus }: 
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button className="cursor-pointer font-geist- mt-8" onClick={() => setSessionStatus('running')}>Start Focus Session</Button>
+                    <Button className="cursor-pointer font-geist- mt-8" onClick={onStartSession}>Start Focus Session</Button>
                 </CardFooter>
             </Card>
         </div>
