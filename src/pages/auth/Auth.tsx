@@ -13,7 +13,7 @@ function Auth() {
                 <div className="flex flex-col items-center">
                     <div className="flex items-center gap-4">
                         <div className="w-10 border"></div>
-                        <h1 className="font-lust text-4xl font-bold">HEARTH</h1>
+                        <h1 className="font-lust text-4xl font-bold">HEART</h1>
                         <div className="w-10 border"></div>
                     </div>
                     <p className="font-geist-semibold mt-2 text-[#6b7280]">Focus better. Acheive more.</p>

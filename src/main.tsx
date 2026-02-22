@@ -4,12 +4,15 @@ import './index.css'
 import App from './App.tsx'
 import { AuthProvider } from './context/AuthProvider.tsx';
 import { Toaster } from "@/components/ui/sonner"
+import { SessionProvider } from './context/SessionProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <AuthProvider>
-      <App />
-      <Toaster />
+      <SessionProvider>
+        <App />
+        <Toaster />
+      </SessionProvider>
     </AuthProvider>
   </BrowserRouter>,
 )

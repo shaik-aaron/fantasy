@@ -56,7 +56,7 @@ export const LockInConfig = ({ focusConfig, setFocusConfig, onStartSession }: { 
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button className="cursor-pointer font-geist- mt-8" onClick={onStartSession}>Start Focus Session</Button>
+                    <Button className="cursor-pointer font-geist- mt-8" onClick={onStartSession} disabled={focusConfig.type === '' || focusConfig.duration === 0}>Start Focus Session</Button>
                 </CardFooter>
             </Card>
         </div>

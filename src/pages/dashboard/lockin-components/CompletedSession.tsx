@@ -78,7 +78,7 @@ export const CompletedSession = ({ session, setSessionStatus }: { session: Sessi
                     </div>
                 </CardContent>
                 <div className="px-8 pb-8">
-                    <Button onClick={saveSession} className="w-full">
+                    <Button onClick={saveSession} className="w-full cursor-pointer">
                         {isSaving ? "Saving..." : "Save and Start Another Session"}
                     </Button>
                 </div>

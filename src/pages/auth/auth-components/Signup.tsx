@@ -8,12 +8,15 @@ import api from '../../../api/posts'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import type { SignUpDetails } from "@/types/auth"
 import { AuthContext } from "@/context/AuthProvider"
-import { useContext } from "react"
+import { useContext, useState } from "react"
+import { Loader2 } from "lucide-react"
 
 function Signup() {
 
     let navigate = useNavigate();
     const { setAuth } = useContext(AuthContext);
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const {
         register,
@@ -23,15 +26,18 @@ function Signup() {
     const onSubmit: SubmitHandler<SignUpDetails> = async (data) => {
         console.log("Request data: ", data)
         try {
+            setIsLoading(true)
             const response = await api.post('/signup', data)
             console.log(response)
             if (response.status == 201) {
                 setAuth({ userId: response.data.userId, firstName: response.data.firstName, email: response.data.email });
+                setIsLoading(false)
                 navigate("/home")
             }
         }
         catch (err) {
             console.log(`Error: ${err}`)
+            setIsLoading(false)
         }
     }
 
@@ -84,7 +90,9 @@ function Signup() {
                             {errors.password && <FieldError>Password is required</FieldError>}
                         </Field>
                         <Field>
-                            <Button type="submit" className="cursor-pointer font-geist-bold">Sign up!</Button>
+                            <Button type="submit" className="cursor-pointer font-geist-bold" disabled={isLoading}>
+                                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <p className="text-sm">Sign up!</p>}
+                            </Button>
                         </Field>
                     </FieldGroup>
                 </form>

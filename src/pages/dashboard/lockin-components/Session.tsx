@@ -6,13 +6,11 @@ import type { FocusConfig, SessionLog, SessionStatus } from "@/types/focus"
 import { Pause, Play, Square } from "lucide-react"
 import { useEffect, useState } from "react"
 
-export const Session = ({ focusConfig, startTime, sessionStatus, setSessionStatus, setPendingCompletedSession }: { focusConfig: FocusConfig, startTime: number, sessionStatus: SessionStatus, setSessionStatus: (status: SessionStatus) => void, setPendingCompletedSession: (session: SessionLog | null) => void }) => {
+export const Session = ({ focusConfig, startTime, endsAt, setEndsAt, sessionStatus, setSessionStatus, setPendingCompletedSession, remainingTime, setRemainingTime }: { focusConfig: FocusConfig, startTime: number, endsAt: number, setEndsAt: (endsAt: number | null) => void, sessionStatus: SessionStatus, setSessionStatus: (status: SessionStatus) => void, setPendingCompletedSession: (session: SessionLog | null) => void, remainingTime: number, setRemainingTime: (remainingTime: number | null) => void }) => {
 
     const totalDuration = focusConfig.duration * 60 * 1000
 
-    const [endsAt, setEndsAt] = useState(() => startTime + totalDuration)
     const [now, setNow] = useState(startTime)  // Start at exact startTime
-    const [remainingTime, setRemainingTime] = useState<number | null>(null)
 
     const handlePause = () => {
         const remaining = endsAt - Date.now()
@@ -21,7 +19,7 @@ export const Session = ({ focusConfig, startTime, sessionStatus, setSessionStatu
     }
 
     const handleResume = () => {
-        const newEndsAt = Date.now() + remainingTime!
+        const newEndsAt = Date.now() + remainingTime
         setEndsAt(newEndsAt)
         setRemainingTime(null)
         setSessionStatus("running")

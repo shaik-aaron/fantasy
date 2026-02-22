@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
+
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { BarChart3, Info, LogOut, Timer } from "lucide-react";
+import { BarChart3, Info, Timer } from "lucide-react";
 import UserDetails from "./UserDetails";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export default function MainSidebar() {
-
+    const location = useLocation();
     const items = [
         {
             title: "Lock In",
@@ -14,7 +14,7 @@ export default function MainSidebar() {
         },
         {
             title: "Reports",
-            url: "#",
+            url: "/home/reports",
             icon: <BarChart3 height={18} width={18} />
         },
         {
@@ -28,7 +28,7 @@ export default function MainSidebar() {
         <Sidebar>
             <SidebarHeader>
                 <div className="flex flex-col items-start justify-center p-2">
-                    <h1 className="font-lust text-xl font-bold">HEARTH</h1>
+                    <h1 className="font-lust text-xl font-bold">HEART</h1>
                     <p className="text-sm ">Focus OS</p>
                 </div>
             </SidebarHeader>
@@ -39,7 +39,7 @@ export default function MainSidebar() {
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <Link to={item.url}>
+                                        <Link className={`${location.pathname === item.url ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''}`} to={item.url}>
                                             {item.icon}
                                             <p className="text-base">{item.title}</p>
                                         </Link>
