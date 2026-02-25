@@ -9,6 +9,7 @@ import { AuthContext } from "@/context/AuthProvider"
 import { useContext, useState } from "react"
 import type { LoginDetails } from "@/types/auth"
 import { Loader2 } from "lucide-react"
+import { toast } from "sonner"
 
 function Login() {
 
@@ -35,7 +36,8 @@ function Login() {
             }
         }
         catch (err) {
-            console.log("Error: ", err)
+            console.log("Error: ", (err as any)?.response?.data?.error)
+            toast.error((err as any)?.response?.data?.error)
             setIsLoading(false)
         }
     }
