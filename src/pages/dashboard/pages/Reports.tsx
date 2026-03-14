@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import api from "../../../api/posts"
 import { AuthContext } from "../../../context/AuthProvider"
-import type { Reports } from "@/types/focus"
+import type { Reports as ReportsType } from "@/types/focus"
 import { toast } from "sonner"
 import dayjs from "dayjs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,11 +10,10 @@ import { CartesianGrid, Cell, LabelList, Line, LineChart, Pie, PieChart, XAxis, 
 import { lineChartConfig, pieChartConfig } from "@/lib/chartTypes"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export default function Reports() {
+export default function Reports({ reports, setReports }: { reports: ReportsType | null, setReports: (reports: ReportsType | null) => void }) {
 
     const { auth } = useContext(AuthContext)
     const [isLoading, setIsLoading] = useState(false)
-    const [reports, setReports] = useState<Reports>({ sessions: [], count: 0, totalSessions: 0, totalTimeSeconds: 0, sessionTypeBreakdown: [{ count: 0, percentage: 0, type: '' }] })
 
 
     useEffect(() => {
@@ -31,10 +30,12 @@ export default function Reports() {
                 setIsLoading(false)
             }
         }
-        fetchReports()
+        if (!reports) {
+            fetchReports()
+        }
     }, [auth?.userId])
 
-    const averageSessionLength = ((reports?.totalTimeSeconds / reports?.count) / 60).toFixed(2)
+    const averageSessionLength = ((reports?.totalTimeSeconds ?? 0) / (reports?.count ?? 0) / 60).toFixed(2)
     console.log(reports)
 
     return (
@@ -44,7 +45,7 @@ export default function Reports() {
                     <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x">
                         {isLoading ? <Skeleton className="flex flex-col items-center justify-center py-4 md:py-0" /> : <div className="flex flex-col items-center justify-center py-4 md:py-0">
                             <p className="text-3xl font-bold tracking-tight">
-                                {(reports?.totalTimeSeconds / 60).toFixed(2)}m
+                                {((reports?.totalTimeSeconds ?? 0) / 60).toFixed(2)}m
                             </p>
                             <p className="text-sm text-muted-foreground mt-1">
                                 Total Focus Time
@@ -52,7 +53,7 @@ export default function Reports() {
                         </div>}
                         {isLoading ? <Skeleton className="w-full h-[100px] animate-pulse" /> : <div className="flex flex-col items-center justify-center py-4 md:py-0">
                             <p className="text-3xl font-bold tracking-tight">
-                                {reports?.totalSessions}
+                                {reports?.totalSessions ?? 0}
                             </p>
                             <p className="text-sm text-muted-foreground mt-1">
                                 Sessions Completed
@@ -81,7 +82,7 @@ export default function Reports() {
                         {isLoading ? <Skeleton className="w-full h-[300px] animate-pulse" /> : (
                             <>
                                 {reports?.count === 0 ? <div className="w-full h-[300px] flex items-center justify-center"><p className="text-md text-muted-foreground">Start a session to see your weekly report</p></div> : <ChartContainer className="h-[300px] w-full" config={lineChartConfig}>
-                                    <LineChart data={reports?.sessions} margin={{
+                                    <LineChart data={reports?.sessions ?? []} margin={{
                                         left: 24,
                                         right: 24,
                                     }}>
@@ -126,7 +127,7 @@ export default function Reports() {
                                         <ChartTooltip
                                             content={<ChartTooltipContent nameKey="percentage" hideLabel />}
                                         />
-                                        <Pie data={reports?.sessionTypeBreakdown} dataKey="percentage" nameKey="type">
+                                        <Pie data={reports?.sessionTypeBreakdown ?? []} dataKey="percentage" nameKey="type">
                                             {(reports?.sessionTypeBreakdown ?? []).map((entry) => (
                                                 <Cell key={entry.type} fill={pieChartConfig[entry.type as keyof typeof pieChartConfig]?.color ?? "var(--color-chart-1)"} />
                                             ))}
